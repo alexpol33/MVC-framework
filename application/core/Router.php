@@ -35,11 +35,17 @@ class Router
 
     public function run(){
         if($this->match()){
-            $controller = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller.php';
-            if(class_exists($controller)){
-                echo 'OK';
+            $controllerPath = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller';
+            if(class_exists($controllerPath)){
+                $action = $this->params['action'].'Action';
+                if(method_exists($controllerPath, $action)){
+                    $controller = new $controllerPath($this->params);
+                    $controller->$action();
+                }else{
+                    echo "Not found action $action";
+                }
             }else{
-                echo 'Контроллер не найден';
+                echo "Контроллер $controllerPath не найден";
             }
 
         }else{
