@@ -19,4 +19,9 @@ class View
         $content = ob_get_clean();
         require 'application/views/layouts/' . $this->layout . '.php';
     }
+
+    public static function errorCode($code){
+        http_response_code($code);
+        require 'application/views/errors/' . $code . '.php';
+    }
 }
